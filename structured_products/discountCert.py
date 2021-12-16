@@ -4,12 +4,10 @@ import math
 import numpy as np
 from scipy.stats import norm
 
-def BSM_analytical(type, S0, X, T, r, sigma):
-    # FIX division by zero 
+def BSM_analytical(type, S0, X, T, r, sigma, div):
+    # zero strike call = price of underlying without dividends
     if X==0:
-        d_1 = (np.log(S0)+(r+sigma**2 /2)*T)/(sigma*np.sqrt(T))
-        d_2 = (np.log(S0)+(r-sigma**2 /2)*T)/(sigma*np.sqrt(T))
-    
+        bsm = S0*np.exp(-div*T)
     else:
         d_1 = (np.log(S0/X)+(r+sigma**2 /2)*T)/(sigma*np.sqrt(T))
         d_2 = (np.log(S0/X)+(r-sigma**2 /2)*T)/(sigma*np.sqrt(T))
@@ -27,10 +25,10 @@ def BSM_analytical(type, S0, X, T, r, sigma):
 def discountCertificate(S, X, T, r, sigma):
     
     # zero strike call position
-    zero_strike_call = BSM_analytical(type='Call', S0=S, X=0, T=T, r=r, sigma=sigma)
+    zero_strike_call = BSM_analytical(type='Call', S0=S, X=0, T=T, r=r, sigma=sigma, div=0)
     
     # short call position
-    short_call = BSM_analytical(type='Call', S0=S, X=X, T=T, r=r, sigma=sigma)
+    short_call = BSM_analytical(type='Call', S0=S, X=X, T=T, r=r, sigma=sigma, div=0)
     
     value = zero_strike_call - short_call
     
