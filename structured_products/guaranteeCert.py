@@ -3,7 +3,6 @@
 import math
 import numpy as np
 from scipy.stats import norm
-from torch import blackman_window
 
 def BSM_analytical(type, S0, X, T, r, sigma, div):
     # zero strike call = price of underlying without dividends
